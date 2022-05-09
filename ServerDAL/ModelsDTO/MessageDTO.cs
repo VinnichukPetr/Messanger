@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServerDAL.ModelsDTO
 {
-    [Table("tblCities")]
+    [Table("MessageTb")]
     public class MessageDTO : BaseEntityDTO<int>
     {
         [Required, StringLength(50)]

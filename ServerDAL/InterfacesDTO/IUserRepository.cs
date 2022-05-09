@@ -9,6 +9,6 @@ namespace ServerDAL.InterfacesDTO
 {
     public interface IUserRepository : IBaseRepository<UserDTO, int>
     {
-        bool IsLogin(string login, string password);
+        int IsLogin(string login, string password);
     }
 }

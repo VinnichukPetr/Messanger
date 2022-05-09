@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServerDAL.InterfacesDTO
 {
-    public interface IMessageRepository : IBaseRepository<MessageDTO, string>
+    public interface IMessageRepository : IBaseRepository<MessageDTO, int>
     {
     }
 }
