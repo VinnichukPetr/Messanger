@@ -2,10 +2,9 @@
 {
     public enum StatusMessage
     {
-        LogIn, //if log in messanger
-        SigIn, //if sig in messanger
-        Forgaut, // if forgaut password
-        ForgoutCheck, // if chek code for forgaut pasword
+        LogIn, //log in to messanger
+        SigIn, // sig in to messanger
+        GenereteNewPassword, // get new password
         Joined, // if joined in chat
         Message, // if sednd message
         Detached, // if detached in chat

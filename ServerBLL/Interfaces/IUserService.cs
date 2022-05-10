@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServerBLL.Interfaces
 {
-    interface IUserService : IBaseService<User, int>, ITranslator<User, UserDTO>
+    interface IUserService : IBaseService<UserEntity, int>, ITranslator<UserEntity, UserDTO>
     {
     }
 }

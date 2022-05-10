@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MessangerLibrary\MessangerLibrary.csproj" />
     <ProjectReference Include="..\ServerDAL\ServerDAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Logic\" />
   </ItemGroup>
 
 </Project>

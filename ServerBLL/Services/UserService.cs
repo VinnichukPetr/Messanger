@@ -19,14 +19,14 @@ namespace ServerBLL.Services
         public UserService() { _unitOfWork = new UnitOfWork(); }
 
         // work with date
-        public bool Add(User entity) => _unitOfWork.UserRepository.Add(ModeltoModelDTO(entity));
+        public bool Add(UserEntity entity) => _unitOfWork.UserRepository.Add(ModeltoModelDTO(entity));
         public bool Delete(int id) => _unitOfWork.UserRepository.Delete(id);
-        public bool Update(User entity) => _unitOfWork.UserRepository.Add(ModeltoModelDTO(entity));
+        public bool Update(UserEntity entity) => _unitOfWork.UserRepository.Add(ModeltoModelDTO(entity));
 
         // get item(-s)
-        public IQueryable<User> GetAll()
+        public IQueryable<UserEntity> GetAll()
         {
-            List<User> users = new List<User>();
+            List<UserEntity> users = new List<UserEntity>();
 
             foreach(var item in _unitOfWork.UserRepository.GetAll())
             {
@@ -35,17 +35,17 @@ namespace ServerBLL.Services
 
             return users.AsQueryable();
         }
-        public User GetById(int id) => ModelDTOtoModel(_unitOfWork.UserRepository.GetById(id));
+        public UserEntity GetById(int id) => ModelDTOtoModel(_unitOfWork.UserRepository.GetById(id));
 
         //translators
-        public User ModelDTOtoModel(UserDTO modelDTO) => new User()
+        public UserEntity ModelDTOtoModel(UserDTO modelDTO) => new UserEntity()
         {
             Id = modelDTO.Id,
             UserName = modelDTO.UserName,
             Password = modelDTO.Password,
             Email = modelDTO.Email
         };
-        public UserDTO ModeltoModelDTO(User model) => new UserDTO()
+        public UserDTO ModeltoModelDTO(UserEntity model) => new UserDTO()
         {
             Id = model.Id,
             UserName = model.UserName,

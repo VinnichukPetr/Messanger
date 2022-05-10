@@ -19,14 +19,14 @@ namespace ServerBLL.Services
         public MessageService() { _unitOfWork = new UnitOfWork(); }
 
         // work with date
-        public bool Add(Message entity) => _unitOfWork.MessageRepository.Add(ModeltoModelDTO(entity));
+        public bool Add(MessageEntity entity) => _unitOfWork.MessageRepository.Add(ModeltoModelDTO(entity));
         public bool Delete(int id) => _unitOfWork.MessageRepository.Delete(id);
-        public bool Update(Message entity) => _unitOfWork.MessageRepository.Add(ModeltoModelDTO(entity));
+        public bool Update(MessageEntity entity) => _unitOfWork.MessageRepository.Add(ModeltoModelDTO(entity));
 
         // get item(-s)
-        public IQueryable<Message> GetAll()
+        public IQueryable<MessageEntity> GetAll()
         {
-            List<Message> users = new List<Message>();
+            List<MessageEntity> users = new List<MessageEntity>();
 
             foreach (var item in _unitOfWork.MessageRepository.GetAll())
             {
@@ -35,16 +35,16 @@ namespace ServerBLL.Services
 
             return users.AsQueryable();
         }
-        public Message GetById(int id) => ModelDTOtoModel(_unitOfWork.MessageRepository.GetById(id));
+        public MessageEntity GetById(int id) => ModelDTOtoModel(_unitOfWork.MessageRepository.GetById(id));
 
         //translators
-        public Message ModelDTOtoModel(MessageDTO modelDTO) => new Message()
+        public MessageEntity ModelDTOtoModel(MessageDTO modelDTO) => new MessageEntity()
         {
             Id = modelDTO.Id,
             UserName = modelDTO.UserName,
             Content = modelDTO.Content
         };
-        public MessageDTO ModeltoModelDTO(Message model) => new MessageDTO()
+        public MessageDTO ModeltoModelDTO(MessageEntity model) => new MessageDTO()
         {
             Id = model.Id,
             UserName = model.UserName,

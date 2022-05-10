@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServerBLL.Interfaces
 {
-    public interface IMessageService : IBaseService<Message, int>, ITranslator<Message, MessageDTO>
+    public interface IMessageService : IBaseService<MessageEntity, int>, ITranslator<MessageEntity, MessageDTO>
     {
     }
 }
