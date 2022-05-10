@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MessangerLibrary
 {
-    class Parsing
+    public class ParsingContent
     {
-        string WriteParser(List<string> content)
+        static public string WriteParser(List<string> content)
         {
             string buf = "";
 
@@ -20,6 +20,6 @@ namespace MessangerLibrary
             return buf;
         }
 
-        List<string> ReadParser(string content) => content.Split('|').ToList();
+        static public List<string> ReadParser(string content) => content.Split('|').ToList();
     }
 }

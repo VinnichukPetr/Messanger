@@ -52,5 +52,9 @@ namespace ServerBLL.Services
             Password = model.Password,
             Email = model.Email
         };
+
+        //checkers
+        public int IsLogin(string login, string password) =>_unitOfWork.UserRepository.IsLogin(login, password);
+        public bool CheckEmail(string email) => _unitOfWork.UserRepository.CheckEmail(email);
     }
 }

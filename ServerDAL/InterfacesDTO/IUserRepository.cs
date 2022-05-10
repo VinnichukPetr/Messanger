@@ -10,5 +10,7 @@ namespace ServerDAL.InterfacesDTO
     public interface IUserRepository : IBaseRepository<UserDTO, int>
     {
         int IsLogin(string login, string password);
+        bool CheckUserName(string username);
+        bool CheckEmail(string email);
     }
 }

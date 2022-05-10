@@ -22,7 +22,7 @@ namespace ServerDAL.RepositoriesDTO
         public TEntity GetById(TIdType id) => _context.Set<TEntity>().Find(id);
 
         // work with table
-        public bool Add(TEntity entity)
+        public virtual bool Add(TEntity entity)
         {
             try
             {

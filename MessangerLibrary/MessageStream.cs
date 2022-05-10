@@ -5,7 +5,7 @@ namespace MessangerLibrary
     public class MessageStream
     {
         // create new Message
-        static public Message CreateMessage(StatusMessage typeMesage, string username, string content) => new Message()
+        static public Message CreateMessage(StatusMessage typeMesage, string username, string content) => new ParsingContent()
         {
             TypeMessage = typeMesage,
             Username = username,

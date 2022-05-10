@@ -10,5 +10,7 @@ namespace ServerBLL.Interfaces
 {
     interface IUserService : IBaseService<UserEntity, int>, ITranslator<UserEntity, UserDTO>
     {
+        int IsLogin(string login, string password);
+        bool CheckEmail(string email);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using MessangerLibrary;
-using ServerBLL.Logic;
 using ServerBLL.Modeles;
+using ServerBLL.Services;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -17,16 +17,23 @@ namespace ServerUI
         // Server data
         static private Socket _serverSocket;
         // Data stream
-        private static byte[] _dataStream = new byte[1024];
-        public static ManualResetEvent Manual = new ManualResetEvent(false);
+        static private byte[] _dataStream = new byte[1024];
+        static public ManualResetEvent Manual = new ManualResetEvent(false);
+
+        //Data services
+        static private UserService userService = new UserService();
+        static private MessageService messageService = new MessageService();
+
         #endregion
 
         static void Main(string[] args)
         {
+            //creadet data auntification
+            IPAddress ip = IPAddress.Parse("127.0.0.1"); // IP
+            IPEndPoint endPoint = new IPEndPoint(ip, 8000); // PORT
+
             //data auntification
             _serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            IPAddress ip = IPAddress.Parse("127.0.0.1");
-            IPEndPoint endPoint = new IPEndPoint(ip, 8000);
             _serverSocket.Bind(endPoint);
 
             //console
@@ -59,17 +66,57 @@ namespace ServerUI
                 {
                     case StatusMessage.LogIn:
                         {
-                            
+                            // get log data
+                            List<string> logData = ParsingContent.ReadParser(clientMessage.Content);
+                            //result
+                            byte[] result;
+
+                            //validation 
+                            if (logData.Count == 2)
+                            {
+                                //if data log is corect
+                                result = BitConverter.GetBytes(userService.IsLogin(logData[0], logData[1]));
+                            }
+                            else
+                            {
+                                //if not corect
+                                result = BitConverter.GetBytes(-2);
+                            }
+
+                            //send result
+                            _serverSocket.BeginSendTo(result, 0, result.Length, SocketFlags.None, epSender, new AsyncCallback(SendMessage), epSender);
                         }
                         break;
                     case StatusMessage.SigIn:
                         {
+                            // get sig data
+                            List<string> sigData = ParsingContent.ReadParser(clientMessage.Content);
+                            //result
+                            byte[] result;
 
+                            //validation 
+                            if (sigData.Count == 3)
+                            {
+                                //if data log is corect
+                                result = BitConverter.GetBytes(userService.Add(new UserEntity() {UserName = sigData[0], Password = sigData[1], Email = sigData[3] }));
+                            }
+                            else
+                            {
+                                //if not corect
+                                result = BitConverter.GetBytes(-2);
+                            }
                         }
                         break;
                     case StatusMessage.GenereteNewPassword:
                         {
+                            if(userService.CheckEmail(clientMessage.Content) == true)
+                            {
 
+                            }
+                            else
+                            {
+
+                            }
                         }
                         break;
                     case StatusMessage.Joined: //Client log In
