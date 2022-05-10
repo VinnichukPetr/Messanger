@@ -1,11 +1,11 @@
 ﻿using System.IO;
 
-namespace MessangerLibrary
+namespace MessangerLibrary.Chat
 {
     public class MessageStream
     {
         // create new Message
-        static public Message CreateMessage(StatusMessage typeMesage, string username, string content) => new ParsingContent()
+        static public Message CreateMessage(StatusMessage typeMesage, string username, string content) => new Message()
         {
             TypeMessage = typeMesage,
             Username = username,

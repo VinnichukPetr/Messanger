@@ -1,4 +1,4 @@
-﻿namespace MessangerLibrary
+﻿namespace MessangerLibrary.Chat
 {
     public enum StatusMessage
     {

@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientUI", "ClientUI\ClientUI.csproj", "{C376D672-C4CB-4547-ADBD-A88C8E464EA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientUI", "ClientUI\ClientUI.csproj", "{C376D672-C4CB-4547-ADBD-A88C8E464EA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientBLL", "ClientBLL\ClientBLL.csproj", "{5823EB92-496E-401F-94A7-E666BCB403F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientBLL", "ClientBLL\ClientBLL.csproj", "{5823EB92-496E-401F-94A7-E666BCB403F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerUI", "ServerUI\ServerUI.csproj", "{2E468362-A5DC-4060-A21A-40C01C041583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerUI", "ServerUI\ServerUI.csproj", "{2E468362-A5DC-4060-A21A-40C01C041583}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerBLL", "ServerBLL\ServerBLL.csproj", "{4429D7F9-E2B5-4F1B-B226-D21C183E133D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerBLL", "ServerBLL\ServerBLL.csproj", "{4429D7F9-E2B5-4F1B-B226-D21C183E133D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerDAL", "ServerDAL\ServerDAL.csproj", "{2484AE2E-FD73-4F98-9155-B3E7DEE27BC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerDAL", "ServerDAL\ServerDAL.csproj", "{2484AE2E-FD73-4F98-9155-B3E7DEE27BC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessangerLibrary", "MessangerLibrary\MessangerLibrary.csproj", "{474E08DA-6717-4FAA-B6A7-8BC08AF79964}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessangerLibrary", "MessangerLibrary\MessangerLibrary.csproj", "{474E08DA-6717-4FAA-B6A7-8BC08AF79964}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
