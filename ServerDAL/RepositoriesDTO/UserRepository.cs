@@ -28,10 +28,16 @@ namespace ServerDAL.RepositoriesDTO
 
         // users methods
         public bool CheckUserName(string username) => _context.Users.Count(x => x.UserName == username) > 0;
-        public bool CheckEmail(string email) => _context.Users.Count(x => x.Email == email) > 0;
+        public int CheckEmail(string email)
+        {
+            var item = _context.Users.Where(u => u.Email == email).First();
+            if (item != null) return item.Id;
+            else return -1;
+        }
+
         public int IsLogin(string login, string password)
         {
-            var item = _context.Users.Where(e => e.UserName == login && e.Password == password).First();
+            var item = _context.Users.Where(u => u.UserName == login && u.Password == password).First();
 
             if (item != null) return item.Id;
             else return -1;

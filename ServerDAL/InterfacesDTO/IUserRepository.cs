@@ -11,6 +11,6 @@ namespace ServerDAL.InterfacesDTO
     {
         int IsLogin(string login, string password);
         bool CheckUserName(string username);
-        bool CheckEmail(string email);
+        int CheckEmail(string email);
     }
 }

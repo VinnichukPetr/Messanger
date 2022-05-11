@@ -55,6 +55,25 @@ namespace ServerBLL.Services
 
         //checkers
         public int IsLogin(string login, string password) =>_unitOfWork.UserRepository.IsLogin(login, password);
-        public bool CheckEmail(string email) => _unitOfWork.UserRepository.CheckEmail(email);
+        public int CheckEmail(string email) => _unitOfWork.UserRepository.CheckEmail(email);
+
+        //generators
+        public string GenerateNewPasword(int length)
+        {
+            string password = "";
+
+            for (int i = 0; i < length;)
+            {
+                int n = new Random().Next(65, 122);
+
+                if (n >= 65 && n <= 90 || n >= 97 && n <= 122)
+                {
+                    password += ((char)n);
+                    i++;
+                }
+            }
+
+            return password;
+        }
     }
 }

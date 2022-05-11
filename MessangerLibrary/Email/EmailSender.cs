@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MessangerLibrary.Email
 {
-    class EmailSender
+    public class EmailSender
     {
         private readonly EmailConfiguration _emailConfiguration;
         public EmailSender()

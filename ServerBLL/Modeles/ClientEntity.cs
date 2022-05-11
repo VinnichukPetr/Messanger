@@ -10,6 +10,6 @@ namespace ServerBLL.Modeles
     public class ClientEntity
     {
         public EndPoint EndPoint { get; set; }
-        public UserEntity User { get; set; }
+        public string UserName { get; set; }
     }
 }

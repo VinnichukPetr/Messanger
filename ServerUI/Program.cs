@@ -1,10 +1,13 @@
-﻿using MessangerLibrary;
+﻿using MessangerLibrary.Chat;
+using MessangerLibrary.Email;
 using ServerBLL.Modeles;
 using ServerBLL.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
 namespace ServerUI
@@ -13,7 +16,7 @@ namespace ServerUI
     {
         #region Server data
         // List clients
-        static private List<ClientEntity> _clients = new List<ClientEntity>();
+        static private List<ClientEntity> _onlineUsers = new List<ClientEntity>();
         // Server data
         static private Socket _serverSocket;
         // Data stream
@@ -58,9 +61,10 @@ namespace ServerUI
                 Manual.Set();
                 IPEndPoint client = new IPEndPoint(IPAddress.Any, 0);
                 EndPoint epSender = (EndPoint)client;
+                bool isMessage = false;
                 _serverSocket.EndReceiveFrom(asyncResult, ref epSender);
                 Message clientMessage = MessageStream.ReadMessage(_dataStream);
-                Message serverMessage = MessageStream.CreateMessage(clientMessage.TypeMessage, clientMessage.Username, null);
+                Message serverMessage = MessageStream.CreateMessage(clientMessage.TypeMessage, clientMessage.Username, clientMessage.Content);
 
                 switch (clientMessage.TypeMessage)
                 {
@@ -85,6 +89,16 @@ namespace ServerUI
 
                             //send result
                             _serverSocket.BeginSendTo(result, 0, result.Length, SocketFlags.None, epSender, new AsyncCallback(SendMessage), epSender);
+
+                            //view in console
+                            if(BitConverter.ToInt32(result) >= 0)
+                            {
+                                ConsoleMessage(true, ConsoleColor.Green, clientMessage.Username + ": sucesfule logined");
+                            }
+                            else
+                            {
+                                ConsoleMessage(true, ConsoleColor.Green, clientMessage.Username + ": not sucesfule logined");
+                            }
                         }
                         break;
                     case StatusMessage.SigIn:
@@ -105,41 +119,107 @@ namespace ServerUI
                                 //if not corect
                                 result = BitConverter.GetBytes(-2);
                             }
+
+                            //send result
+                            _serverSocket.BeginSendTo(result, 0, result.Length, SocketFlags.None, epSender, new AsyncCallback(SendMessage), epSender);
+
+                            //view in console
+                            if (BitConverter.ToInt32(result) >= 0)
+                            {
+                                ConsoleMessage(true, ConsoleColor.Green, clientMessage.Username + ": sucesfule sigined");
+                            }
+                            else
+                            {
+                                ConsoleMessage(true, ConsoleColor.Green, clientMessage.Username + ": not sucesfule sigined");
+                            }
                         }
                         break;
                     case StatusMessage.GenereteNewPassword:
                         {
-                            if(userService.CheckEmail(clientMessage.Content) == true)
-                            {
+                            byte[] result;
+                            int checkEmail = userService.CheckEmail(clientMessage.Content);
 
+                            if (checkEmail >= 0)
+                            {
+                                UserEntity user = userService.GetById(checkEmail);
+                                UserEntity tempUser = new UserEntity
+                                {
+                                    Id = user.Id,
+                                    UserName = user.UserName,
+                                    Password = userService.GenerateNewPasword(8),
+                                    Email = user.Email
+                                };
+
+                                userService.Update(tempUser);
+
+                                EmailSender sender = new EmailSender();
+                                EmailMessage message = new EmailMessage(new List<string> { clientMessage.Content }, "New password", tempUser.Password);
+
+                                result = Encoding.UTF8.GetBytes("New password in your email!");
                             }
                             else
                             {
-
+                                result = Encoding.UTF8.GetBytes("Your email not found!");
                             }
+
+                            //send result
+                            _serverSocket.BeginSendTo(result, 0, result.Length, SocketFlags.None, epSender, new AsyncCallback(SendMessage), epSender);
+
+                            //view in console
+                            ConsoleMessage(true, ConsoleColor.Blue, clientMessage.Username + ": generete new password");
                         }
                         break;
                     case StatusMessage.Joined: //Client log In
                         {
+                            isMessage = true;
+                            ClientEntity NewClient = new ClientEntity() { EndPoint = client, UserName = clientMessage.Username };
+                            _onlineUsers.Add(NewClient);
+
+                            foreach(var oldMessage in messageService.GetAll())
+                            {
+                                byte[] result = Encoding.UTF8.GetBytes($"{oldMessage.UserName}: {oldMessage.Content}");
+                                _serverSocket.BeginSendTo(result, 0, result.Length, SocketFlags.None, epSender, new AsyncCallback(SendMessage), epSender);
+                            }
+
+                            //view in console
+                            ConsoleMessage(true, ConsoleColor.Green, clientMessage.Username + clientMessage.Content);
                         }
                         break;
                     case StatusMessage.Message: // Client send message
                         {
+                            isMessage = true;
+                            ConsoleMessage(true, ConsoleColor.Gray, clientMessage.Username + clientMessage.Content);
                         }
                         break;
                     case StatusMessage.Detached: //Client log out
                         {
+                            foreach (ClientEntity c in _onlineUsers)
+                            {
+                                if (c.EndPoint.Equals(epSender))
+                                {
+                                    _onlineUsers.Remove(c);
+                                    isMessage = true;
+                                    ConsoleMessage(true, ConsoleColor.Red, clientMessage.Username + clientMessage.Content);
+                                    break;
+                                }
+                            }
                         }
                         break;
                 }
 
-                byte[] byteMessage = MessageStream.WriteMessage(serverMessage);
-
-                foreach (var fclient in _clients)
+                if(isMessage == true)
                 {
-                    if (fclient.EndPoint != epSender || serverMessage.TypeMessage != StatusMessage.Joined)
+                    byte[] byteMessage = MessageStream.WriteMessage(serverMessage);
+
+
+                    messageService.Add(new MessageEntity { Content = serverMessage.Content, UserName = serverMessage.Username });
+
+                    foreach (var fclient in _onlineUsers)
                     {
-                        _serverSocket.BeginSendTo(byteMessage, 0, byteMessage.Length, SocketFlags.None, fclient.EndPoint, new AsyncCallback(SendMessage), fclient.EndPoint);
+                        if (fclient.EndPoint != epSender || serverMessage.TypeMessage != StatusMessage.Joined)
+                        {
+                            _serverSocket.BeginSendTo(byteMessage, 0, byteMessage.Length, SocketFlags.None, fclient.EndPoint, new AsyncCallback(SendMessage), fclient.EndPoint);
+                        }
                     }
                 }
             }
