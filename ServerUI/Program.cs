@@ -33,10 +33,15 @@ namespace ServerUI
         {
             //creadet data auntification
             IPAddress ip = IPAddress.Parse("127.0.0.1"); // IP
-            IPEndPoint endPoint = new IPEndPoint(ip, 8000); // PORT
+            IPEndPoint endPoint = new IPEndPoint(ip, 2000); // PORT
 
             //data auntification
+
+
+            //////////////////////////////////////////////////////        EXEPTION
             _serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            //////////////////////////////////////////////////////        EXEPTION
+
             _serverSocket.Bind(endPoint);
 
             //console

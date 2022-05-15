@@ -7,7 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ClientBLL\ClientBLL.csproj" />
+    <None Remove="View\Images\ButtonFile.png" />
+    <None Remove="View\Images\ButtonProfile.png" />
+    <None Remove="View\Images\ButtonSend.png" />
+    <None Remove="View\Images\ButtonSettings.png" />
+    <None Remove="View\Images\Logo.jpg" />
+    <None Remove="View\Images\LogoFullSize%27.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MessangerLibrary\MessangerLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="View\Images\ButtonFile.png" />
+    <Resource Include="View\Images\ButtonProfile.png" />
+    <Resource Include="View\Images\ButtonSend.png" />
+    <Resource Include="View\Images\ButtonSettings.png" />
+    <Resource Include="View\Images\Logo.jpg" />
+    <Resource Include="View\Images\LogoFullSize'.jpg" />
   </ItemGroup>
 
 </Project>

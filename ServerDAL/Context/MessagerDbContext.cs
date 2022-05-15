@@ -10,7 +10,10 @@ namespace ServerDAL.Context
 {
     public class MessagerDbContext :DbContext
     {
-        public MessagerDbContext() { }
+        public MessagerDbContext() 
+        {
+            Database.EnsureCreated();
+        }
         public MessagerDbContext(DbContextOptions<MessagerDbContext> options) : base(options) { }
 
         public DbSet<UserDTO> Users { get; set; }

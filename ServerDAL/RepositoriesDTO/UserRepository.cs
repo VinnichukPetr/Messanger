@@ -16,7 +16,7 @@ namespace ServerDAL.RepositoriesDTO
         // ovveride base methods
         public override bool Add(UserDTO entity)
         {
-            if (!CheckUserName(entity.UserName) || !CheckEmail(entity.Email))
+            if (!CheckUserName(entity.UserName) || CheckEmail(entity.Email) < 0)
             {
                 return base.Add(entity);
             }
