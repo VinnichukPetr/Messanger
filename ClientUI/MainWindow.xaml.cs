@@ -33,6 +33,7 @@ namespace ClientUI
         public MainWindow()
         {
             InitializeComponent();
+            StartUp();
         }
 
         private void StartUp()

@@ -20,8 +20,11 @@ namespace MessangerLibrary.Chat
                 using (BinaryWriter writer = new BinaryWriter(memoryStream))
                 {
                     writer.Write((int)message.TypeMessage);
-                    writer.Write(message.Username);
-                    writer.Write(message.Content);
+                    writer.Write("Ivan");
+                    if (message.Content != null)
+                        writer.Write(message.Content);
+                    else
+                        writer.Write("Света");
                 }
                 return memoryStream.ToArray();
             }
